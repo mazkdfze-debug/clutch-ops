@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clutch Ops : invitation</title>
+<meta name="description" content="Un ami t'invite sur Clutch Ops, l'esport manager tactique.">
+<style>
+  :root { --fond: #0B0E13; --carte: #15181D; --texte: #F2F4F7; --doux: #9AA4B2; --vert: #6FCB1E; --rouge: #FF4D5E; --turquoise: #3CE0C8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 50% 0%, #10302C 0%, var(--fond) 60%); color: var(--texte);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .carte { width: 100%; max-width: 420px; background: var(--carte); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 28px 22px; text-align: center; }
+  h1 { font-size: 30px; letter-spacing: 3px; margin: 0; text-transform: uppercase; }
+  h1 span { color: var(--rouge); }
+  .sous { color: var(--turquoise); letter-spacing: 4px; font-size: 12px; text-transform: uppercase; margin-top: 4px; }
+  p { color: var(--doux); line-height: 1.5; font-size: 15px; }
+  .code { display: inline-block; margin: 6px 0 2px; padding: 10px 18px; border-radius: 12px; border: 1px dashed var(--turquoise); font-size: 28px; letter-spacing: 6px; font-weight: 800; color: var(--texte); }
+  .cadeau { color: var(--texte); font-weight: 600; }
+  a.bouton { display: block; margin-top: 14px; padding: 16px; border-radius: 12px; font-weight: 800; font-size: 17px; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; }
+  .principal { background: linear-gradient(#B6F03C, #3E8A0E); color: #16300A; }
+  .secondaire { border: 1px solid rgba(255,255,255,0.18); color: var(--texte); }
+  .note { font-size: 12px; color: var(--doux); margin-top: 16px; }
+</style>
+</head>
+<body>
+<main class="carte">
+  <h1>Clutch <span>Ops</span></h1>
+  <div class="sous">Esport manager</div>
+  <p>Un ami t'invite à créer ton club e-sport. Son code :</p>
+  <div class="code" id="code">······</div>
+  <p class="cadeau">Cadeau de bienvenue : 150 gemmes et une caisse élite.</p>
+  <a class="bouton principal" id="store" href="https://apps.apple.com/app/id6834064642">Télécharger le jeu</a>
+  <a class="bouton secondaire" id="ouvrir" href="clutchops://parrain">J'ai déjà le jeu : l'ouvrir</a>
+  <p class="note">Le code est copié : il s'appliquera tout seul au premier lancement du jeu. Sinon, saisis-le dans Profil → Code ami pendant ta première semaine.</p>
+</main>
+<script>
+  // Code de l'ami dans l'adresse : invitation.html?code=ABC123
+  var m = location.search.match(/[?&]code=([A-Za-z0-9]{6})/);
+  var code = m ? m[1].toUpperCase() : '';
+  if (code) {
+    document.getElementById('code').textContent = code;
+    document.getElementById('ouvrir').href = 'clutchops://parrain?code=' + code;
+    // Copie pour le premier lancement (le jeu lit « CLUTCHOPS:ABC123 » une seule fois).
+    var copier = function () { try { navigator.clipboard && navigator.clipboard.writeText('CLUTCHOPS:' + code); } catch (e) {} };
+    copier();
+    document.getElementById('store').addEventListener('click', copier);
+    document.getElementById('ouvrir').addEventListener('click', copier);
+    // Si le jeu est installé, il s'ouvre directement avec le code.
+    setTimeout(function () { location.href = 'clutchops://parrain?code=' + code; }, 300);
+  } else {
+    document.getElementById('code').textContent = '—';
+  }
+</script>
+</body>
+</html>
